@@ -1,0 +1,26 @@
+52  emerge syslog-ng vixie-cron
+53  vi /etc/make.conf
+54  emerge syslog-ng vixie-cron
+55  vi /etc/make.conf
+56  emerge syslog-ng vixie-cron
+57  cd /usr/src
+58  ls
+59  cd linux
+60  ls
+61  make && make modules_install install
+62  rc-update add syslog-ng default
+63  rc-update add vixie-cron default
+
+iptables
+dev-db/mysql
+sudo
+app-cdr/cdrtools
+emerge -av nfs-utils net-misc/vncsnapshot app-emulation/qemu-kvm net-analyzer/tcpdump app-cdr/cdrtools dev-db/mysql net-misc/telnet-bsd
+
+
+/opt/malwareader/bin/aftersandbox.sh: line 291: host: command not found
+/opt/malwareader/bin/aftersandbox.sh: line 293: geoiplookup: command not found
+/opt/malwareader/bin/aftersandbox.sh: line 458: 7za: command not found
+/opt/malwareader/postsandbox/fff6eb3978110bc2f1cea95bfef0f3ce85aa7d9528bf634f58eb82320e1f48965f804c25a5a66a62c9c7f8aa43515f6436224806a60e6c705d374f39e30e1c82
+/opt/malwareader/bin/aftersandbox.sh: line 475: mail: command not found
+/opt/malwareader/bin/aftersandbox.sh: line 473: uuencode: command not found

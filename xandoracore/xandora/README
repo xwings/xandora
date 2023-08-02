@@ -1,0 +1,99 @@
+
+Important Todo List
+===================
+
+*** Xandora ***
+
+- Detection policy for 
+	- registry
+		-
+	- file
+		- dropping exe,dll
+		- dropping autorun.inf
+	- URL
+		- Quick url analyzer
+	- network
+		- port 25
+		
+- PDF / Ms office Analyzer
+
+- Virtual machine detection
+	- different syscall
+	
+- notification, 10/43 virustital ? 0/43 virustotal ?
+- queue management
+	- zero from virustotal, faster queue
+	- more then 10, slower queue
+	- make it in ready_lb.sh
+	
+	
+
+*** Xangui ***
+- fix user dashboard with "appearance" table information
+- display uploader
+- display admin dashboard based on stat_counter
+
+Todo List (xandora)
+===================
+
+== Translation ==
+- Chinese Language for china
+- Spanish Language for Infospyware
+
+== Detection ==
+- Javascript vs VB Script detection
+- PDF malware
+- SWF malware
+- URL Processing
+
+== Summary ==
+- Summary for Infection method
+- Summary for update method
+
+== Traffic ==
+- Traffic analysis, PCAP Reader for IRC
+- Traffic analysis, PCAP Reader for Email
+
+== Misc ==
+- Email Receiver (vendor folder) - leechpop.pl
+- AS Number for trafficinfo
+- QEMU plugin Upgrade method
+- QEMU plugin Infection method
+- Postsanbox Plugin
+- PreSandbox Plugin
+- Sandbox Plugin
+- YARA behavioral detection (detect embedded PE, C&C channels, etc)
+- Volatility integration
+- Detecting rootkits (IAT Hooks, EAT hooks, Inline API Hooks, etc)
+
+Todo List (xangui)
+==================
+ 
+* API query with JSON
+* Registration
+* who is the contributor (Pending) - Members only
+* Report for publishing - 
+	- Vendor uploader
+	- Top 50 malware for the month
+	- Top 20 Countries
+	- Top 10 Malware connected to Malaysia
+
+*********************************************************************************
+
+File Information:
+=================
+** fetch.sh **
+fetch and send files for prepocess
+
+** start.sh **
+check and start dynamicdump.sh
+
+Database Design:
+================
+refer to sql/xandora-dbsesign.sql
+
+
+
+*********************************************************************************
+
+
