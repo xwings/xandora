@@ -1,0 +1,115 @@
+.TH perdr 1 "16 June 2002"
+.SH NAME
+perdr \- Portable Executable ReaDeR
+.SH SYNOPSIS
+.B "perdr"
+.RB [ -b | --bytes ] 
+.RB [ --help ]
+.RB [ --version ] 
+.RB [ --show-priority ]
+.RB [ --raw-dump ]
+.RB [ --extract-icon-resource ]
+.RB [ --disable-3dnow ]
+.RB [ --disable-enh3dnow ]
+.RB [ --disable-pentium3 ]
+.RB [ --disable-athlon ]
+.RB [ --show-headers ]
+.RB [ --show-imports ]
+.RB [ --show-relocations ]
+.RB [ --show-exports ]
+.RB [ --show-resources ]
+.RB [ --show-code ]
+.I file
+.SH DESCRIPTION
+.B Perdr
+analize the executable file, disassemble it and print disassembled code.
+.TP
+.BR -b ", " --bytes
+Print bytes in disassembly listing.
+.TP
+.BR --help
+Print usage screen and exit.
+.TP
+.BR --version
+Print version number and exit.
+.TP
+.BR --show-priority
+Show disassembly priority.
+.TP
+.BR --raw-dump
+Instead of disassembly program print a dump with program addresses.
+.TP
+.BR --extract-icon-resource
+Extract icon into separate files (resicoX.ico).
+.TP
+.BR --disable-3dnow
+Don't handle 3D Now! instructions.
+.TP
+.BR --disable-enh3dnow
+Don't handle Enhanched 3D Now! instructions.
+.TP
+.BR --disable-pentium3
+Don't handle Pentium III instructions.
+.TP
+.BR --disable-athlon
+Don't handle Athlon instructions.
+.TP
+.BR --show-headers
+Show headers in output.
+.TP
+.BR --show-imports
+Show imports in output.
+.TP
+.BR --show-relocations
+Show relocations in output.
+.TP
+.BR --show-exports
+Show exports in output.
+.TP
+.BR --show-resources
+Show resources in output.
+.TP
+.BR --show-code
+Show code or dump in output.
+
+.SH PRIORITIES
+
+The program start scanning code in many manners. The manners are called prioritys because 
+it scan first the most probable alternative.
+.PP
+secure code \- most probably code
+.TP
+.BR "entry point"
+code executed by entry point 
+.TP
+.BR "safe export"
+code executed by known export (not yet implemented) 
+.TP
+.BR "safe heuristics"
+code executed by heuristics (very sure code) 
+.PP
+not secure \- not very sure
+.TP
+.BR "export code"
+executed by export (mmm.. not all export are code) 
+.TP
+.BR "heuristics code"
+executed by heuristics (not very sure, like a single call found) 
+.TP
+.BR "constant"
+only a constant in code 
+.TP
+.BR filler 
+only printed for completion 
+.TP
+.BR none 
+this is not code 
+.TP
+.BR "check only" 
+wow! If you find there is a bug 
+
+.SH BUGS
+This is my first man page and is incomplete, so this section is not compiled :-)
+
+.SH "AUTHOR"
+Frediano Ziglio <freddy77@angelfire.com>

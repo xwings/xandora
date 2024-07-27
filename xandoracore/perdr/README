@@ -1,0 +1,423 @@
+--- PeRdr version 0.0108 beta --- Released 2006-10-08 (y-m-d) ---
+This program is a console mode PE (Windows Portable Executable program)
+viewer/disassembler.
+There are many work to do.
+
+Developed with anjuta 1.2, compiled with Visual C++ 6.0 and 
+Gcc 4 for Linux platform. 
+Tested with HP ia64 compiler and SKI emulator (version 0.008b). 
+Not work with big-endian machine.
+It support full Pentium III instruction, old Intel processors instruction
+(old system 486 instruction, 8087 and 80287 opcode),full 3DNow! extension
+and Athlon extensions.
+
+Use:
+perdr [options] <filename>
+Options are similar to Posix semantic
+   --                      end option (useful if filename start with -)
+   --help                  print this message
+   -v, --version           print the version of PeRdr being used
+   -b, --bytes             show bytes on disassembly
+   -p, --show-priority     show priority in disassembly
+   --raw-dump              don't disassemble, print only raw bytes
+   --extract-icon-resource extract icon into separate files (resicoX.ico)
+ Disable some instruction sets decode:
+   --disable-3dnow         disable 3DNow! disassembly (even enhanced)
+   --disable-enh3dnow      disable enhanced 3DNow! disassembly
+   --disable-pentium3      disable Pentium III disassembly
+   --disable-athlon        disable Athlon disassembly
+ Select what to show (if none show all):
+   --show-headers          show headers
+   -H, --show-imports      show imports
+   --show-relocations      show relocations
+   --show-exports          show exports
+   --show-resources        show resources
+   -R, --raw-resources     show raw resource data
+   --show-code             show code or dump
+
+This reverse the executable to screen
+
+Priority
+ "secure code":
+  entry point       code executed by entry point
+  safe export       code executed by known export (not yet implemented)
+  safe heuristics   code executed by heuristics (very sure code)
+
+ "not secure":
+  export            code executed by export (mm.. not all export are code)
+  heuristics        code executed by heuristics
+                    (not very sure, like a single call found)
+  constant          only a constant in code
+  filler            only printed for completion
+  none              this is not code
+  check only        wow! If you find there is a bug
+
+BUG:
+- This program assume that code segment contain only code
+- More check
+
+TO DO:
+- Data analysis completing
+- String checking completing
+- More option (no code analysis, some check skipping, etc)
+- Resource analysis and dumping
+- Relocation analysis and test on data pointers
+- Heuristic motor completing
+- Some instruction process are incomplete (complex reference)
+- Unknown bytes analysis (not only code)
+- Print of some type (float or MMX). Now only in raw mode (binary)
+- interactive interface
+
+New in 0.0108 - 08 Oct 2006
+- from patch from Jason Hood:
+ - recognise float types (ByteInfo::typeFloat)
+ - allow -1 in arrays
+ - added the functions to dump raw bytes and output C-escaped strings
+ - added more instructions to GetUseType (adapted)
+ - Windows API function argument reference (winapifn.lst file)
+ - custom function aliases and arguments (customfn.lst file)
+ - comparison instructions will use condition codes, other instructions flags
+  (eg: "cmp eax, 0" / "je ADDR", but "test eax, eax" / "jz ADDR")
+ - made the "Referenced by" output an option, instead just using delineators to
+  indicate calls ("========") and jumps/constants ("--------"), also indicating
+  how many forward/backward references (eg: "=1<=2>==" means this function is
+  called once before this address and twice after)
+- mark reference detected in complex reference and use them
+- dump even data
+- update floating point disassembly (up to Pentium 4)
+
+New in 0.0107 - 03 Oct 2006
+- from patch from Jason Hood:
+ - if there are no code sections, treat the section containing EP as code
+ - primitive recognition of Unicode strings (`(StringData)L"unicode"')
+   !!! WONDERFUL !!!
+ - display only the first 100 characters of strings
+ - if the instruction is 11 bytes, keep the bytes on one line
+ - display strings using "StringZ" pseudo-instruction (adapted)
+ - display base address using 2, 4 or 8 digits, depending on its value
+ - add a tab after BYTE/WORD/DWORD
+ - made the REP actual prefixes for string instructions (eg: "rep movsb")
+ - added short options for most of the long
+ - added --show-cRef for the original "Referenced by" display (calls)
+ - added --show-URef for the original "Referenced by" display (uncond. jumps)
+ - added --show-CRef for the original "Referenced by" display (cond. jumps)
+ - added --show-refs for the original "Referenced by" display (all of above)
+ - add space after each colon in DLL display (eg: "Addr:xxx" -> "Addr: xxx")
+ - minor fixes
+- added --no-entry-code options to specify that entry point does not
+  point to code (happen with some driver)
+
+For developers
+- add GetLiteralSize support for offsets in Param
+- add Instruction::IsNop (adapted from Jason patch)
+
+New in 0.0106 - 25 Sep 2006
+- from patch from Jason Hood:
+ - reduced the file header, added option for original display 
+ - dump known resource types, added option for original display
+ - use three columns to display relocations
+ - added space after the comma (eg: "mov al, 0")
+ - only use "repe" (and "repne", not "repnz") when appropriate, "rep" otherwise
+ - made the REP actual prefixes for string instructions (eg: "rep movsb")
+ - "normalised" the condition codes
+ - added --full-headers(-H) for the original headers display
+ - added --raw-resources(-R) for the original resource display
+ - replace "Ord." with "Ord#"
+
+For developer
+- changed GetStringStats to IsPossibleString
+
+New in 0.0105 - 21 Sep 2006
+- BUG FIX: fix crash fix crash when importing by ordinal
+- BUG FIX: read correctly across sections
+- BUG FIX: some typo fix
+- BUG FIX: PUNPCKLDQ was stored as PUNOCKLDQ (patch from Jason Hood)
+- BUG FIX: FEMMS & PREFETCH (swapped opcodes) (patch from Jason Hood)
+- BUG FIX: MOVLPS (swapped src/dst) (patch from Jason Hood)
+- BUG FIX: PACKSSWB (was PACKUSDW) (patch from Jason Hood)
+- BUG FIX: PACKUSWB (was PACKSSWB) (patch from Jason Hood)
+- BUG FIX: ARPL (EwGw not EvGv) (patch from Jason Hood)
+- BUG FIX: FUCOMPP (was FUCOMPUU) (patch from Jason Hood)
+- TEST/XCHG ("mem,reg" instead of "reg,mem") (patch from Jason Hood)
+- improve a lot disasm adding SSE/SSE2 (patch from Jason Hood)
+- enable warning if conpiled with gcc
+- do not use CFLAGS/CXXFLAGS in configure
+- start float handling
+- enhanced x86test (read from file, read bytes on command line) (patch from Jason Hood)
+
+New in 0.0104 - 04 Jan 2004
+- fix dll search under win32
+
+New in 0.0103 - 21 May 2003
+- BUG FIX: DevC++ produced buggy executable
+- ADD: --addr-start --addr-end options to disassemble partially
+
+For developer
+- Rewritten options code
+
+New in 0.0102 - 02 February 2003
+- BUG FIX: do not try to search full api name for export
+- ADD: print possible strings references
+  (idea and partial implementation from Jeremy Smith)
+- ADD: find external dll to read full api names (if ordinal)
+  (used current directory on Unix, SearchPath on windows)
+
+For developer
+- OutOfAddress is now global
+- cleanup and constification
+- new ::DataReader class (removing dependency for dasm)
+- renames ReadByte/Word/Dword in ReadU8/U16LE/U32LE (now only on DataReader)
+
+New in 0.0101 - 01 January 2003
+- updated DevC++ project
+- BUG FIX: print wrong disassembly on some cases (without -b option)
+- a bit faster
+
+For developer
+- renamed api to symbol
+- review Relocation classes for bfd use
+- move Symbols and entryPoint infos into FileByte
+- cleanup names
+- renamed FileByte to ObjectModule
+- new more to read object (ObjectModule::DataReader class)
+
+New in 0.0100 - 1 August 2002
+- ADD: add ws2_32 to cache
+- BUG FIX: fix overlapped instruction printing output
+- BUG FIX: filler skip relocation on 0 byte sequences
+- BUG FIX: fix overlapping beetween code and data
+
+New in 0.0099 - 29 July 2002
+- ADD: print import name if imported by ordinal
+- BUG FIX: if unknown data contain relocation are printed as DWORD, not single
+  bytes (this is the main reason for this fast release)
+
+New in 0.0098 - 25 July 2002
+- removed ole2 and added odbc32 from cache
+- print hexadecimal file characteristics
+- print more flag of file characteristics
+- filled some missing directory names
+
+New in 0.0097 - 13 July 2002
+- BUG FIX: correct spelling in this README
+- for some dll (wsock32, ole32, oleaut32 for the moment) show imports name
+  even if imported by ordinal (for now cached in executable)
+
+New in 0.0096 - 2 July 2002
+- BUG FIX: wrong check if byte occupied
+  (I promise I'll always do regression test from now on :) )
+- BUG FIX: some spell fix on doc and syntax usage
+
+New in 0.0095 - 16 June 2002
+- ADD: add option to select what output
+  (useful for script or other things)
+- show decimal and hex for ordinals
+- update man page
+
+For developer
+- fix make distcheck
+- add GUI to dist (still in alpha)
+
+New in 0.0094 - 12 June 2002
+- Projects for DevC++ (console and GUI)
+- Project for Anjuta 1.9 (console)
+- begin GUI (some preliminary code only)
+- fix import without Hint-Name (Borland and early Microsoft compiler)
+
+For developer:
+- moved some utils file to a new directory
+- transform many defines to enum
+
+New in 0.0093 - 18 march 2002
+- BUG FIX: fix length check marking data
+- added icon extraction
+- test for little endian during compilation
+
+New in 0.0092 - 10 December 2001
+- BUG FIX: fix compile problem with VC++ in release mode
+- some file cleanup
+
+New in 0.0091 - 9 December 2001
+- BUG FIX: do not collapse symbols for same address
+
+New in 0.0090 - 29 November 2001
+- BUG FIX: unicode handling fixed if wchar_t is not 16bit unicode
+- BUG FIX: esc decode instruction
+- some cleanup
+- fixed some missed include
+
+New in 0.0089 - 28 October 2001
+- started redesign code
+
+New in 0.0088 - 24 June 2001
+- NEWS: project ported to SourceForge
+- BUG: fixed priority for complex memory references
+- BUG: raw-dump rewind file for empty section
+- BUG: fixed relocation detection with some strange file
+- BUG: fixed small problem with MSVC compiler
+- disabled unsafe heuristic, too unsafe
+- improved config scripts
+
+New in 0.0087 - 10 March 2001
+- BUG FIX: invalid SECC instruction reported as valid
+- BUG FIX: removed overwriting information with bad one marking integer
+- import marked as loader bytes
+- added Borland C++ project files to source
+
+For developer:
+- some cleanup in code
+- added note.txt to source
+
+New in 0.0086 - 25 February 2001
+- BUG FIX: removed log print
+- BUG FIX: missing some list item separator in man page
+
+For developer:
+- removed silly dependency from peformat.h
+
+Notes:
+- This project is not dead! I'm the only programmer and every single 
+  problem can slow down developing!
+
+New in 0.0085 - 21 December 2000
+- BUG FIX: removed some wrong relocation checking (3D Now! and SECC1)
+- BUG FIX: checked memory parameter for 3D Now!
+- BUG FIX: correct too restrictive debug check (stupid mistake)
+- BUG FIX: incorrect cvtpi2ps handling
+- Fixed some constant for performance and size optimization
+
+For developer:
+- renamed inst_offset to pc
+- revisited pc handling in x86dasm
+- removed bit field from PE structure 
+
+New in 0.0084 - 5 December 2000
+- ADD: finished all Pentium III instruction
+- ADD: Athlon instruction and parameter
+- ADD: added --raw-dump parameter
+
+For developer:
+- removed other old style C code
+- RelocationInfo associated with FileByte
+
+New in 0.0083 - 18 November 2000
+- ADD: man page for UNIX
+- ADD: .spec file use rpm option
+- small precision improvement
+
+For developer:
+- many changes to encapsulate old style C code to object oriented
+- preparing to merge with bdf (now code is GPL, so I can include bdf
+  without license problem)
+  
+Notes: 
+- there are no BUG FIX in this version!
+- why I waited for so many time ?
+  - I had many other work (and other problem too);
+  - I studied other freeware project for merging or optimize my work
+    (bdf, DCC, PEDasm and others)
+
+New in 0.0082 - 2 October 2000
+- BUG FIX: fixed data resided in two section
+- BUG FIX: bad address reference for some complex reference
+- BUG FIX: bad label marking for some jmp dword ptr [x*4+y] reference
+- BUG FIX: some minor correction
+- print information on complex reference
+- if bad parameters print usage and return error
+- added some instruction processing
+
+
+New in 0.008
+- BUG FIX: not infinite loop for some overlapped code (rarest)
+- BUG FIX: don't overwrite priority on data
+- BUG FIX: correct condition on heuristic motor
+- BUG FIX: not relocation on string!
+- added RPM building under UNIX
+- rewrite auto_ptr (more compatible)
+- rewrite some PE structure (more compatible)
+
+For developer:
+- Fixed TIstrInfos constant use
+
+10 June 2000 released to public
+
+New in 0.0075
+- BUG FIX: not extend sign on byte constant for byte registry operation
+- ADD: add --show-priority to options
+
+New in 0.007
+- BUG FIX: wrong priority order
+- BUG FIX: no overlapped code
+- BUG FIX: fixed loader data exclusion on some file
+- ADD: Added global reference to heuristic motor
+
+New in 0.006
+- BUG FIX: xchg eax,ebx printed as xchg ax,ebx
+- BUG FIX: internal uninitialized error (3 day of work!!!)
+- BUG FIX: fixed some insignificant memory leak
+- ADD: instruction movntq (found AMD doc)
+- ADD: jmp dword [4*reg+constant] improved
+- ADD: start global analysis
+- some optimization
+
+New in 0.005
+I start revision program output
+- BUG FIX: string/loader data length not reported correctly
+- BUG FIX: loader data not handle correctly
+- BUG FIX: resource with name handled as ID
+- BUG FIX: overflow on section name printing
+- BUG FIX: segment override not printed
+- BUG FIX: print [] if param is [00000000h]
+- BUG FIX: if [xxx] xxx constant write always unsigned
+- BUG FIX: if file has no relocation handled as with relocation
+- ADD: option for version and processor disabling
+
+New in 0.004
+- BUG FIX: cmpxcghg8b have bad parameter
+- ADD: Pentium III control instruction (prefetchX, fxsave, fxrstor,
+  ldmxcsr, stmxcsr, sysenter, sysexit, sfence)
+- ADD: Pentium III MMX instruction (maskmovq, pextrw, pmovmskb, pavgb,
+  pavgw, pinsrw, pminub, pminsw, pmaxub, pmaxsw, pmulhuw, psadbw, pshufw)
+- ADD: full AMD 3DNow! instruction extension
+
+New in 0.003
+- BUG FIX: Correct disassembly for Imm8 signed extended, now extend sign
+- BUG FIX: Wrong size setting of memory
+- ADD: Excluded loader code
+- ADD: Added api call to heuristic motor
+
+New in 0.002
+- BUG FIX: Relocation on instruction not handled correctly
+- BUG FIX: More label than needed
+- BUG FIX: String are now handled correctly
+- BUG FIX: No code and code overlap on complex jmp
+- ADD: Relocation on code finished
+- ADD: Options (--bytes)
+- ADD: Better data analysis
+
+New in 0.001
+- BUG FIX: Don't add many reference
+- BUG FIX: Not initialized data pointer are not correct
+- ADD: relocation use
+
+New in 0.00015
+- BUG FIX: Don't exit if some instruction is unknown
+- BUG FIX: fixed error printing Numeric export
+- ADD: data analysis for pointer in code
+- ADD: check for string in code
+- many new BUG :-)
+
+HOW IT WORK
+This program, instead of parse all for code, try to follow code as a
+microprocessor (follow jump, call, etc). It produce (I hope) better reversing
+code.
+But is more complex, slow and contain MANY more bug.
+
+
+If you have suggestion, comment, please contact me at
+  freddyz77@tin.it
+
+Yes, I'm an Italian man, so if you find error in this document...
+
+THANKS
+yypcn - for his moral support

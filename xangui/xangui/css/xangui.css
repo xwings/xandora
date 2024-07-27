@@ -1,0 +1,255 @@
+#title {
+    font-weight: bold;
+    font-size: 12pt;
+}
+
+#search {
+    text-align: right;
+}
+
+body {
+    background: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 9pt;
+}
+
+a:link { color:#0000ff; text-decoration: none; }      
+a:visited { color:#800080; text-decoration: none; }  
+a:hover { color:#800080; text-decoration: underline; }  
+a:active { color:#ff0000; text-decoration: none; }  
+
+h1 {
+    font-size: 11pt;
+    font-weight: bold;
+}
+
+#map_canvas {
+    padding: 8pt 0pt 8pt 0pt;
+    background-color: #eaf7fe;
+    margin-bottom: 1em;
+}
+
+span.done{
+    font-size: 8pt;
+    color: black;
+    padding: 3pt;
+    background-color: lightgreen;
+    margin: .5em;
+    font-weight: bold;
+}
+
+#topnav a:hover { text-decoration:underline; }
+#topnav a:link { text-decoration: none; padding: 0em .5em 0em .5em; }
+#topnav a.first:link { padding: 0em .5em 0em 0em; }
+#topnav .selected { color: black; }
+#topnav .first_selected { color:black; padding: 0em .5em 0em 0em; }
+
+#tabs a:hover { text-decoration:underline; }
+#tabs a:link { text-decoration: none; padding: 0em .5em 0em .5em; }
+#tabs a.first:link { padding: 0em .5em 0em 0em; }
+#tabs .selected { color: black; }
+#tabs .first_selected { color:black; padding: 0em .5em 0em 0em; }
+
+a.feed {
+    color: white;
+    background-color: #ff8c00;
+    padding: .2em .5em .2em .5em;
+}
+
+img {
+    border: 0px;
+}
+
+input, select {
+    padding: 2pt;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11pt;
+}
+
+input:focus, textarea:focus{
+    background-color: lightyellow;
+}
+
+div.sectionrss {
+    font-weight: bold;
+    font-size: 10pt;
+    background-color: #eee;
+    padding: .5em 1em .5em 1em;
+    margin-bottom: 0em;
+    border-bottom: 1px dotted #eee;
+}
+
+div.section {
+    font-weight: bold;
+    font-size: 11pt;
+    background-color: #eee;
+    padding: .5em 1em .5em 1em;
+    margin-bottom: 1em;
+}
+
+.wordwrap {
+    white-space: pre-wrap;      /* css-3 */
+    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+    white-space: -pre-wrap;     /* Opera 4-6 */
+    white-space: -o-pre-wrap;   /* Opera 7 */
+    word-wrap: break-word;      /* Internet Explorer 5.5+ */ 
+}
+
+#list table {
+    border-collapse:collapse;
+    width: 100%;
+}
+
+#list thead {
+    text-align: left;
+    background-color: white;
+}
+
+#list table, #list th, #list td {
+    border: 1px dotted black;
+}
+
+#list th, #list td {
+    padding: 6px;
+}
+
+#list th {
+    background-color: #ccc;
+}
+
+#list tr:hover {
+    background-color: #ccc;
+}
+
+th, td {
+    padding: 2px;
+}
+
+.pagination a:link {
+    text-decoration: none;
+    border: 1px solid darkblue;
+    padding: 3pt;
+}
+
+.pagination a:hover {
+    text-decoration: none;
+    color: white;
+    background-color: darkblue;
+    padding: 3pt;
+}
+
+.pagination .selected {
+    font-weight: bold;
+    color: white;
+    background-color: darkblue;
+    border: 1px solid darkblue;
+    padding: 3pt;
+}
+
+.found {
+    text-decoration: none;
+    color: white;
+    background-color: darkred;
+    padding: 2pt;
+    border-radius: 4px 4px;
+    -moz-border-radius: 4px 4px;
+    -webkit-border-radius: 4px 4px;
+}
+
+#footer {
+    border-top: 1px solid #ddd;
+    margin-top: 2em;
+    padding: 1em 0em 1em 0em;
+    font-size: 10pt;
+}
+
+.topten {
+    margin: 0em;
+    border-collapse:collapse;
+    width: 100%;
+}
+
+.topten thead {
+    text-align: left;
+    background-color: white;
+}
+
+.topten table, .topten th, .topten td {
+    border: 1px dotted #ccc;
+}
+
+.topten th, .topten td {
+    padding: 5px;
+    text-align: left;
+}
+
+td.odd {
+    background-color: #eee;
+}
+
+td.even {
+    background-color: white;
+}
+
+fieldset {
+    border: 1px solid #eee;
+    padding: 1em;
+}
+
+legend {
+    font-weight: bold;
+    padding: 0pt 5pt 0pt 5pt;
+}
+
+.error_msg {
+    color: white; 
+    background-color:#990000; 
+    border: 1px solid #c71585; 
+    padding: 1em; 
+    margin-bottom: 1em;
+}
+
+a.button {
+    color: blue;
+    font-weight: bold;
+    font-size: 10pt;
+    padding: 5pt;
+    text-decoration:none;
+    border: 1px solid #ccc;
+    background-color: #eee;
+    border-radius: 4px 4px;
+    -moz-border-radius: 4px 4px;
+    -webkit-border-radius: 4px 4px;
+}
+
+a:hover.button {
+    color: blue;
+    background-color: white;
+    border-radius: 4px 4px;
+    -moz-border-radius: 4px 4px;
+    -webkit-border-radius: 4px 4px;
+}
+
+#message {
+    font-weight: bold;
+    font-size: 11pt;
+    border: 1px solid #7de572;
+    background-color: #b6f2af;
+    padding: 1em;
+}
+
+#error {
+    font-weight: bold;
+    font-size: 11pt;
+    border: 1px solid #f11313;
+    background-color: #f87a7a;
+    padding: 1em;
+}
+
+.stat_box {
+    font-weight:bold; 
+    font-size: 20pt; 
+    background-color: #eee; 
+    padding: 1em 2pt 1em 2pt; 
+    text-align: center;
+}

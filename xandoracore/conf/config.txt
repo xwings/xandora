@@ -1,0 +1,51 @@
+#
+# Hard Reboot
+#
+
+
+echo 1 > /proc/sys/kernel/sysrq 
+echo b > /proc/sysrq-trigger
+
+
+##
+## -- /etc/init.d/xandora
+##
+
+#!/sbin/runscript
+# Copyright 1999-2010 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
+
+start() {
+        cp -r /opt/malwareader/images/winxp.qcow2 /opt/malwareader/vms
+        cp -r /opt/malwareader/images/mnt_good /opt/malwareader/vms
+}
+
+
+##
+## -- /etc/crontab
+##
+
+# for vixie cron
+# $Header: /var/cvsroot/gentoo-x86/sys-process/vixie-cron/files/crontab-3.0.1-r4,v 1.2 2009/05/12 09:13:46 bangert Exp $
+
+# Global variables
+SHELL=/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+MAILTO=root
+HOME=/
+
+# check scripts in cron.hourly, cron.daily, cron.weekly and cron.monthly
+59  *  * * *	root	rm -f /var/spool/cron/lastrun/cron.hourly
+9  3  * * *	root	rm -f /var/spool/cron/lastrun/cron.daily
+19 4  * * 6	root	rm -f /var/spool/cron/lastrun/cron.weekly
+29 5  1 * *	root	rm -f /var/spool/cron/lastrun/cron.monthly
+*/10  *  * * *	root	test -x /usr/sbin/run-crons && /usr/sbin/run-crons 
+
+*/1 	* * * * root    /opt/malwareader/bin/start.sh
+*/1 	* * * * root    /opt/malwareader/bin/fetch.sh
+*/1 	* * * * root    /opt/malwareader/bin/postreport.sh
+42    	4 * * * root    /opt/pavcl/usr/bin/updatesig.sh
+33      3 * * * root    /opt/malwareader/bin/dumpurl.sh
+

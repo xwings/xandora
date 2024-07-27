@@ -1,0 +1,13 @@
+#!/sbin/runscript
+# Copyright 1999-2011 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Header: $
+
+start() {
+	rm /opt/malwareader/images/winxp.qcow2
+	cp -r /opt/malwareader/images/winxp.qcow2 /opt/malwareader/vms
+	chattr +i /opt/malwareader/vms/winxp.qcow2
+	#cp -r /opt/malwareader/images/mnt_good /opt/malwareader/vms
+	/opt/malwareader/bin/init.sh
+}
+
